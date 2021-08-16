@@ -1,60 +1,76 @@
 <?php
 
-inteface State{
-  public function proceedToNext();
-  public function toString();
-}
+    interface State
+    {
+      public function proceedToNext();
+      public function toString();
+    }
 
-class StateOrderDone implements State{
-  public $context;
-  
-  public __contruct(OrderContext $context){
-    $this->context = $context;
-  }
-  public function proceedToNext(){
-    $context->setState(null);
-  }
-  public toString(){
-    retur 'Done';
-  }
-}
+    class StateOrderDone implements State
+    {
+      public $context;
 
-class StateOrderCreated implements State{
-   public __contruct(OrderContext $context){
-    $this->context = $context;
-   }
-    public function proceedToNext(){
-      echo $this->toString();
-      $stateShip = new StateOrderShip($this->context);
+      public function  __construct(OrderContext $context)
+      {
+        $this->context = $context;
+      }
+      public function proceedToNext()
+      {
+        // $this->context->setState(null);
+      }
+      public function toString()
+      {
+        return  'Done';
+      }
     }
-    public toString(){
-      retur 'Done';
-    }
-}
-class StateOrderShip implements State{
-   public __contruct(OrderContext $context){
-    $this->context = $context;
-   }
-    public function proceedToNext(){
-      echo $this->toString();
-      $stateShip = new StateOrderDone($this->context);
-    }
-    public toString(){
-      retur 'Done';
-    }
-}
-class OrderContext{
-  public State $state;
-  public static create(){
-     $order = new self();
-      $order->state = new StateCreated();
 
-      return $order;
-  }
-  public function proceedToNext(){
-     $this->state->proceedToNext();
+    class StateOrderCreated implements State
+    {
+      public function  __construct(OrderContext $context)
+      {
+        $this->context = $context;
+      }
+      public function proceedToNext()
+      {
+        echo $this->toString();
+        $stateShip = new StateOrderShip($this->context);
+      }
+      public function toString()
+      {
+        return  'Done';
+      }
     }
-    public toString(){
-       $this->state->toString();
+    class StateOrderShip implements State
+    {
+      public function  __contruct(OrderContext $context)
+      {
+        $this->context = $context;
+      }
+      public function proceedToNext()
+      {
+        echo $this->toString();
+        $stateShip = new StateOrderDone($this->context);
+      }
+      public function  toString()
+      {
+        return  'Done';
+      }
     }
-}
+    class OrderContext
+    {
+      public State $state;
+      public static function create()
+      {
+        $order = new self();
+        //$order->state = new StateOrderCreated();
+        return $order;
+      }
+      public function proceedToNext()
+      {
+        $this->state->proceedToNext();
+      }
+      public function  toString()
+      {
+        $this->state->toString();
+      }
+    }
